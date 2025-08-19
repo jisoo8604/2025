@@ -24,29 +24,29 @@ study_tips = {
 # --------------------- Streamlit UI --------------------- #
 st.set_page_config(page_title="MBTI 공부법 추천기", page_icon="📚", layout="wide")
 
-# 배경 CSS
+# 💜 배경 CSS (파스텔 그라데이션)
 page_bg = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-    color: black;
+    background: linear-gradient(120deg, #f6d5f7 0%, #fbe9d7 100%);
+    color: #333;
 }
 h1, h2, h3 {
     text-align: center;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Trebuchet MS', sans-serif;
 }
 .result-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
     padding: 30px;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.25);
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
     margin-top: 30px;
     font-size: 20px;
-    animation: pop 1s ease;
+    animation: pop 0.8s ease;
 }
 @keyframes pop {
-    0% { transform: scale(0.5); opacity: 0; }
+    0% { transform: scale(0.6); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
 </style>
@@ -55,7 +55,7 @@ st.markdown(page_bg, unsafe_allow_html=True)
 
 # 타이틀
 st.title("📚✨ MBTI 공부법 추천기 ✨📚")
-st.markdown("### 👉 자신의 MBTI를 직접 입력하세요! (예: INFP, ESTJ)")
+st.markdown("### 👉 자신의 MBTI를 입력하세요! (예: INFP, ESTJ)")
 
 # 입력 박스 (직접 입력)
 mbti = st.text_input("당신의 MBTI는?", "").upper().strip()
@@ -70,9 +70,24 @@ if st.button("🔮 공부법 확인하기!"):
             </div>
         """, unsafe_allow_html=True)
 
-        # 이스터에그: 랜덤 칭찬 문구 튀어나오기
-        compliments = ["🔥 완전 잘 어울려요!", "🌟 당신은 공부 천재!", "🚀 오늘도 성장하는 중!", "💎 빛나는 학습자!"]
-        st.balloons()
+        # 🎉 랜덤 효과
+        effects = ["balloons", "snow", "fireworks"]
+        choice = random.choice(effects)
+
+        if choice == "balloons":
+            st.balloons()
+        elif choice == "snow":
+            st.snow()
+        elif choice == "fireworks":
+            st.toast("🎆 불꽃놀이 효과!", icon="🎇")  # 작은 팝업 느낌
+
+        # 🌟 랜덤 칭찬 문구
+        compliments = [
+            "🔥 완전 잘 어울려요!",
+            "🌟 당신은 공부 천재!",
+            "🚀 오늘도 성장하는 중!",
+            "💎 빛나는 학습자!"
+        ]
         st.success(random.choice(compliments))
     else:
         st.error("⚠️ 올바른 MBTI 유형을 입력해주세요! (예: INTP, ESFP)")

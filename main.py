@@ -1,83 +1,36 @@
 import streamlit as st
-import random
 
-# ------------------------------
-# 데이터
-# ------------------------------
-mbti_makeup = {
-    "INFP": {
-        "스타일": "☁️ 몽환적 감성 메이크업",
-        "컬러": "💜 퍼플, 말린 장미, 베이비 핑크",
-        "팁": "🌙 번진 듯한 아이섀도우 + 글로시 립으로 dreamy 무드"
-    },
-    "ENFP": {
-        "스타일": "🍑 컬러풀 러블리 메이크업",
-        "컬러": "🩷 피치, 살몬 핑크, 펄 글리터",
-        "팁": "💖 블러셔와 립 톤 맞춰 발랄함 업!"
-    }
-    # 필요하면 나머지 MBTI 추가
+# MBTI별 공부 방법 데이터
+study_tips = {
+    "INTJ": "계획적이고 체계적으로 공부하세요. 장기 목표를 세우고 작은 단계로 나누어 실행하면 효과적입니다.",
+    "INTP": "호기심을 기반으로 탐구하세요. 스스로 질문을 만들고 답을 찾는 과정에서 깊은 이해가 가능합니다.",
+    "ENTJ": "목표를 명확히 하고 효율적인 방법을 찾으세요. 시간 관리와 우선순위 설정이 핵심입니다.",
+    "ENTP": "다양한 방법을 시도하며 배우세요. 토론, 발표, 창의적 프로젝트가 잘 맞습니다.",
+    "INFJ": "의미 있는 맥락 속에서 공부하세요. 공부 내용을 가치나 이상과 연결하면 더 오래 기억됩니다.",
+    "INFP": "흥미와 열정을 기반으로 학습하세요. 감정과 연결되는 학습이 효과적입니다.",
+    "ENFJ": "협력적인 환경에서 잘 배우는 타입입니다. 친구들과 스터디 그룹을 만들어 공부하세요.",
+    "ENFP": "창의적인 방법으로 배우세요. 그림, 스토리텔링, 마인드맵을 활용하면 좋습니다.",
+    "ISTJ": "계획표와 규칙을 세우고 꾸준히 공부하는 것이 효과적입니다. 반복 학습에 강점이 있습니다.",
+    "ISFJ": "안정적인 환경에서 차분히 학습하세요. 복습과 정리 노트 만들기가 도움이 됩니다.",
+    "ESTJ": "명확한 목표를 세우고 계획대로 실천하세요. 실용적이고 구체적인 자료가 잘 맞습니다.",
+    "ESFJ": "타인과의 협력이 중요합니다. 스터디 그룹이나 친구에게 설명하면서 배우세요.",
+    "ISTP": "직접 문제를 풀거나 실습하면서 배우는 것이 효과적입니다. 이론보다 실제 적용에 강합니다.",
+    "ISFP": "자유로운 분위기에서 배우는 것이 좋습니다. 감각적이고 시각적인 자료를 활용하세요.",
+    "ESTP": "즉흥적으로 실습하면서 배우세요. 몸으로 체험하거나 경쟁 요소를 넣으면 집중이 잘 됩니다.",
+    "ESFP": "재미있고 활기찬 방법이 효과적입니다. 음악, 색깔, 활동적인 학습이 잘 맞습니다.",
 }
 
-# ------------------------------
-# CSS & JS로 애니메이션 효과
-# ------------------------------
-st.markdown("""
-    <style>
-    @keyframes sparkle {
-        0% { opacity: 0.2; transform: scale(1);}
-        50% { opacity: 1; transform: scale(1.2);}
-        100% { opacity: 0.2; transform: scale(1);}
-    }
-    .card {
-        background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-        padding: 20px;
-        border-radius: 20px;
-        box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
-        animation: fadeIn 1s ease-in-out;
-        color: white;
-        font-size: 1.2em;
-    }
-    .sparkle {
-        position: absolute;
-        width: 15px;
-        height: 15px;
-        background: gold;
-        border-radius: 50%;
-        animation: sparkle 1.5s infinite ease-in-out;
-    }
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(20px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
-    </style>
-""", unsafe_allow_html=True)
+# Streamlit 앱 UI
+st.set_page_config(page_title="MBTI 공부법 추천기", page_icon="📚")
 
-# ------------------------------
-# UI
-# ------------------------------
-st.set_page_config(page_title="MBTI 메이크업 추천", page_icon="💄")
-st.title("💄✨ 반짝이는 MBTI 메이크업 추천 ✨💄")
+st.title("📚 MBTI 공부법 추천기")
+st.write("자신의 **MBTI**를 선택하면 어울리는 공부 방법을 추천해드립니다!")
 
-user_mbti = st.text_input("📝 MBTI를 입력하세요 (예: INFP)", "").upper()
+# MBTI 선택
+mbti = st.selectbox("당신의 MBTI를 선택하세요:", list(study_tips.keys()))
 
-if st.button("💫 추천받기"):
-    if user_mbti in mbti_makeup:
-        result = mbti_makeup[user_mbti]
-        st.markdown(f"""
-            <div class="card">
-                <h2>{result['스타일']}</h2>
-                <p><strong>🎨 추천 컬러:</strong> {result['컬러']}</p>
-                <p><strong>💡 팁:</strong> {result['팁']}</p>
-            </div>
-        """, unsafe_allow_html=True)
+# 결과 출력
+if mbti:
+    st.subheader(f"✨ {mbti} 유형의 공부법")
+    st.write(study_tips[mbti])
 
-        # 반짝이 효과 랜덤 위치 생성
-        for _ in range(15):
-            x = random.randint(0, 80)
-            y = random.randint(0, 50)
-            st.markdown(
-                f"<div class='sparkle' style='left:{x}%; top:{y}%; position:fixed;'></div>",
-                unsafe_allow_html=True
-            )
-    else:
-        st.warning("❗ 올바른 MBTI 유형을 입력해주세요. 예: ENFP, ISTJ")
